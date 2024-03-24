@@ -1,4 +1,4 @@
-## Disclaimer
+## Pre-Configured Raspberry Pi OS Lite
 
 The file `2024-03-15-raspios-bookworm-arm64-lite.img` has been downloaded from the official [Raspberry Pi OS distribution](https://www.raspberrypi.com/software/operating-systems/#:~:text=Raspberry%20Pi%20Desktop-,Raspberry%20Pi%20OS,-Our%20recommended%20operating).
 
