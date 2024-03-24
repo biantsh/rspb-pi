@@ -72,5 +72,5 @@ pip install tflite-runtime --break-system-packages
 Finally, we can run the Python script:
 
 ```shell
-python3 run_tflite.py
+python3 run_tflite.py --model model.tflite
 ```

@@ -1,3 +1,8 @@
+"""Run a TFLite model and display average latency.
+
+Usage: python3 --model model.tflite
+"""
+
 import argparse
 import time
 
