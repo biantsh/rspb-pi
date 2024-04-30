@@ -43,7 +43,7 @@ class TFLiteModel(tflite.Interpreter):
     def postprocess(self, predictions: list[np.ndarray]) -> list[Detection]:
         detections = []
 
-        bboxes, categories, scores, _ = predictions
+        scores, bboxes, _, categories = predictions
         for bbox, category, score in zip(bboxes, categories, scores):
             category = self.categories[int(category)]
             threshold = category['threshold']
