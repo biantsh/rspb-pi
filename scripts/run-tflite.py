@@ -4,10 +4,9 @@ from lib.models import TFLiteModel
 from lib.webcam import WebcamReader
 
 
-def main(model_path: str) -> None:
+def main(model_path: str, category_file: str) -> None:
+    model = TFLiteModel(model_path, category_file)
     webcam = WebcamReader(show_fps=True)
-    model = TFLiteModel(model_path)
-
     webcam.start()
 
     while webcam.is_opened:
@@ -22,8 +21,7 @@ def main(model_path: str) -> None:
         detections = model.postprocess(predictions)
 
         for detection in detections:
-            if detection.score > 0.3:
-                detection.draw(frame)
+            detection.draw(frame)
 
         webcam.show(frame)
         webcam.wait_key(close_key='q')
@@ -32,6 +30,7 @@ def main(model_path: str) -> None:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-m', '--model_path', type=str, required=True)
+    parser.add_argument('-c', '--category_file', type=str, required=True)
 
     args = parser.parse_args()
-    main(args.model_path)
+    main(args.model_path, args.category_file)

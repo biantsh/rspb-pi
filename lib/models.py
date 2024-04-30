@@ -1,3 +1,5 @@
+import json
+
 import cv2 as cv
 import numpy as np
 import tflite_runtime.interpreter as tflite
@@ -6,7 +8,7 @@ from lib.detections import Detection
 
 
 class TFLiteModel(tflite.Interpreter):
-    def __init__(self, model_path: str) -> None:
+    def __init__(self, model_path: str, category_file: str) -> None:
         super().__init__(model_path, num_threads=4)
         self.allocate_tensors()
 
@@ -17,6 +19,9 @@ class TFLiteModel(tflite.Interpreter):
 
         output_details = self.get_output_details()
         self.output_indices = [output['index'] for output in output_details]
+
+        with open(category_file, 'r') as json_file:
+            self.categories = json.load(json_file)
 
     def preprocess(self, input_tensor: np.ndarray) -> np.ndarray:
         tensor = cv.cvtColor(input_tensor, cv.COLOR_BGR2RGB)
@@ -35,13 +40,17 @@ class TFLiteModel(tflite.Interpreter):
             for output_index in self.output_indices
         ]
 
-    @staticmethod
-    def postprocess(predictions: list[np.ndarray]) -> list[Detection]:
+    def postprocess(self, predictions: list[np.ndarray]) -> list[Detection]:
         detections = []
 
         bboxes, categories, scores, _ = predictions
         for bbox, category, score in zip(bboxes, categories, scores):
-            label = category
+            category = self.categories[int(category)]
+            threshold = category['threshold']
+            label = category['name']
+
+            if score < threshold:
+                continue
 
             y_min, x_min, y_max, x_max = bbox
             position = [x_min, y_min, x_max, y_max]
