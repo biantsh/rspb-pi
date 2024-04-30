@@ -1,16 +1,19 @@
 import argparse
 
-import cv2 as cv
-
 from lib.models import TFLiteModel
+from lib.webcam import WebcamReader
 
 
 def main(model_path: str) -> None:
     model = TFLiteModel(model_path)
-    cap = cv.VideoCapture(0)
+    webcam = WebcamReader()
+    webcam.start()
 
-    while cap.isOpened():
-        ret, frame = cap.read()
+    while webcam.is_opened:
+        frame = webcam.get_frame()
+        if frame is None:
+            continue
+
         frame_height, frame_width, _ = frame.shape
 
         input_tensor = model.preprocess(frame)
@@ -21,9 +24,8 @@ def main(model_path: str) -> None:
             if detection.score > 0.3:
                 detection.draw(frame)
 
-        cv.imshow('Webcam Inference', frame)
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            cap.release()
+        webcam.show(frame)
+        webcam.wait_key(close_key='q')
 
 
 if __name__ == '__main__':
