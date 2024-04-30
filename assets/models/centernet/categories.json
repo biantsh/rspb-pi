@@ -1,0 +1,17 @@
+[
+  {
+    "id": 0,
+    "name": "person",
+    "threshold": 0.3
+  },
+  {
+    "id": 1,
+    "name": "bike",
+    "threshold": 0.2
+  },
+  {
+    "id": 0,
+    "name": "car",
+    "threshold": 0.25
+  }
+]
