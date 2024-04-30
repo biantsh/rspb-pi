@@ -1,3 +1,13 @@
+"""Run a TFLite CenterNet object detection model on the native webcam.
+
+Example usage:
+    python3 run-tflite.py  \
+      --model_path model.tflite
+      --category_file categories.json
+
+Note: The required files can be found under assets/models.
+"""
+
 import argparse
 
 from lib.models import TFLiteModel
