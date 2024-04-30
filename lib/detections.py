@@ -21,4 +21,4 @@ class Detection:
 
         label_text = f'{self.label} ({int(self.score * 100)}%)'
         cv.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
-        cv.putText(frame, label_text, (x_min, y_min), 2, 1, (0, 255, 0), 1)
+        cv.putText(frame, label_text, (x_min, y_min - 5), 2, 1, (0, 255, 0), 1)
