@@ -5,8 +5,9 @@ from lib.webcam import WebcamReader
 
 
 def main(model_path: str) -> None:
+    webcam = WebcamReader(show_fps=True)
     model = TFLiteModel(model_path)
-    webcam = WebcamReader()
+
     webcam.start()
 
     while webcam.is_opened:
